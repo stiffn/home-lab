@@ -1,0 +1,12 @@
+model UserType {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+
+  users       User[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("UserTypes")
+}

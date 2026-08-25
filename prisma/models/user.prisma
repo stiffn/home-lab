@@ -1,0 +1,33 @@
+model User {
+  id           String     @id @default(uuid())
+  username     String     @unique
+  email        String     @unique
+  passwordHash String
+
+  firstName    String
+  lastName     String
+
+  userTypeId   String
+  userType     UserType   @relation(fields: [userTypeId], references: [id])
+
+  roles        UserRole[]
+
+  isActive     Boolean    @default(true)
+  lastLoginAt  DateTime?
+
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@map("Users")
+}
+
+model UserRole {
+  userId String
+  roleId String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+  @@map("UserRoles")
+}
